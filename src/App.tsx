@@ -356,13 +356,7 @@ function App() {
               duration: 40,
               ease: "none",
               repeat: -1,
-              yoyo: true,
-              scrollTrigger: {
-                trigger: reviewsRef.current,
-                start: "top center",
-                end: "bottom center",
-                toggleActions: "play pause resume pause"
-              }
+              yoyo: true
             });
           }
         };
