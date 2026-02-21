@@ -893,10 +893,10 @@ function App() {
         />
 
         {/* Carousel */}
-        <div className="reviews-carousel absolute inset-x-0 bottom-[15vh] z-40 px-[6vw]">
-          <div ref={reviewsCarouselRef} className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin">
+        <div className="reviews-carousel absolute inset-x-0 bottom-[15vh] z-40 px-[6vw]" style={{ transform: 'rotate(-2deg)' }}>
+          <div ref={reviewsCarouselRef} className="flex gap-6 overflow-x-auto pb-8 no-scrollbar">
             {reviews.map((review, index) => (
-              <div key={index} className="flex-none w-[320px] bg-barber-black/40 backdrop-blur-md p-8 rounded-2xl border border-barber-cream/10 hover:border-barber-gold/30 transition-colors group">
+              <div key={index} className="flex-none w-[320px] bg-barber-black/40 backdrop-blur-md p-8 rounded-2xl border border-barber-cream/10 hover:border-barber-gold/30 transition-colors group" style={{ transform: 'rotate(2deg)' }}>
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={14} className="fill-barber-gold text-barber-gold" />
@@ -916,11 +916,6 @@ function App() {
                 </div>
               </div>
             ))}
-          </div>
-          <div className="mt-4 flex items-center gap-2">
-            <div className="h-px flex-1 bg-barber-cream/10" />
-            <span className="scene-label text-[10px] opacity-50">What the community says</span>
-            <div className="h-px flex-1 bg-barber-cream/10" />
           </div>
         </div>
       </section>

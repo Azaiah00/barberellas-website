@@ -186,6 +186,14 @@
   .form-label {
     @apply font-mono text-barber-gray text-xs uppercase tracking-wider mb-2 block;
   }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @layer utilities {
