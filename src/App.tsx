@@ -98,6 +98,7 @@ function App() {
   const visitRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
   const closingRef = useRef<HTMLDivElement>(null);
+  const reviewsCarouselRef = useRef<HTMLDivElement>(null);
 
   // Lock body scroll when mobile menu is open so the page doesn't scroll to a black section
   useEffect(() => {
@@ -331,6 +332,29 @@ function App() {
           { y: '18vh', opacity: 0, ease: 'power2.in' },
           0.7
         );
+
+      // Autoscroll for reviews carousel
+      const carousel = reviewsCarouselRef.current;
+      if (carousel) {
+        const scrollWidth = carousel.scrollWidth;
+        const clientWidth = carousel.clientWidth;
+        
+        if (scrollWidth > clientWidth) {
+          gsap.to(carousel, {
+            scrollLeft: scrollWidth - clientWidth,
+            duration: 30,
+            ease: "none",
+            repeat: -1,
+            yoyo: true,
+            scrollTrigger: {
+              trigger: reviewsRef.current,
+              start: "top center",
+              end: "bottom center",
+              toggleActions: "play pause resume pause"
+            }
+          });
+        }
+      }
 
       // Booking section
       const bookingScrollTl = gsap.timeline({
@@ -855,7 +879,7 @@ function App() {
 
         {/* Carousel */}
         <div className="reviews-carousel absolute inset-x-0 bottom-[15vh] z-40 px-[6vw]">
-          <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin snap-x snap-mandatory">
+          <div ref={reviewsCarouselRef} className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin snap-x snap-mandatory">
             {reviews.map((review, index) => (
               <div key={index} className="flex-none w-[320px] bg-barber-black/40 backdrop-blur-md p-8 rounded-2xl border border-barber-cream/10 snap-start hover:border-barber-gold/30 transition-colors group">
                 <div className="flex gap-1 mb-4">
