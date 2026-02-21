@@ -737,10 +737,15 @@ function App() {
 
         {/* CTA Panel */}
         <div className="hero-cta absolute right-[6vw] bottom-[10vh] w-[28vw] min-w-[280px] z-40">
-          <p className="scene-subtitle mb-6">
-            Classic cuts, modern confidence. Holding down White Center one cut at a time.
-          </p>
-          <button 
+          <div className="mb-8 pl-4 border-l-2 border-barber-gold/50">
+            <h3 className="font-anton text-2xl md:text-3xl text-barber-gold uppercase tracking-wide mb-2">
+              Classic Cuts, <br /> Modern Confidence
+            </h3>
+            <p className="font-mono text-sm md:text-base text-barber-cream/90 leading-relaxed">
+              Holding down White Center one cut at a time.
+            </p>
+          </div>
+          <button  
             onClick={() => scrollToSection(bookingRef, 0.25)}
             className="btn-primary w-full mb-4 flex items-center justify-center gap-2"
           >

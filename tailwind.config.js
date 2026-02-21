@@ -51,6 +51,7 @@ module.exports = {
         anton: ['Anton', 'sans-serif'],
         inter: ['Inter', 'sans-serif'],
         mono: ['Space Mono', 'monospace'],
+        script: ['Mr Dafoe', 'cursive'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
