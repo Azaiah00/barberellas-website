@@ -1,8 +1,15 @@
 /* App-specific styles */
 
-/* Smooth scrolling for the entire page */
+/* Smooth scrolling on desktop only — on touch, native scroll avoids wobble */
 html {
   scroll-behavior: smooth;
+}
+
+/* Touch devices: use native scroll so finger scroll isn't doubled/laggy */
+@media (hover: none) and (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Custom scrollbar */

@@ -99,6 +99,7 @@ function App() {
   const contactRef = useRef<HTMLDivElement>(null);
   const closingRef = useRef<HTMLDivElement>(null);
   const reviewsCarouselRef = useRef<HTMLDivElement>(null);
+  const teamCarouselRef = useRef<HTMLDivElement>(null);
 
   // Lock body scroll when mobile menu is open so the page doesn't scroll to a black section
   useEffect(() => {
@@ -147,6 +148,11 @@ function App() {
   // Scroll animations
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // Tighter scrub on touch so animations follow finger (less wobble)
+      const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+      const scrubVal = isTouch ? 1 : 0.6;
+      const scrubValLoose = isTouch ? 1 : 0.5;
+
       // Hero scroll exit animation
       const heroScrollTl = gsap.timeline({
         scrollTrigger: {
@@ -154,7 +160,7 @@ function App() {
           start: 'top top',
           end: '+=130%',
           pin: true,
-          scrub: 0.6,
+          scrub: scrubVal,
           onLeaveBack: () => {
             gsap.set('.hero-title, .hero-photo, .hero-rule, .hero-cta, .hero-micro', { 
               opacity: 1, x: 0, y: 0, scale: 1, scaleY: 1 
@@ -197,7 +203,7 @@ function App() {
           start: 'top top',
           end: '+=130%',
           pin: true,
-          scrub: 0.6,
+          scrub: scrubVal,
         }
       });
 
@@ -250,7 +256,7 @@ function App() {
           start: 'top top',
           end: '+=130%',
           pin: true,
-          scrub: 0.6,
+          scrub: scrubVal,
         }
       });
 
@@ -296,6 +302,25 @@ function App() {
           0.7
         );
 
+      // Infinite autoscroll for team (talent) carousel — no scrollbar
+      const teamCarousel = teamCarouselRef.current;
+      if (teamCarousel) {
+        const setupTeamAutoscroll = () => {
+          const scrollWidth = teamCarousel.scrollWidth;
+          const clientWidth = teamCarousel.clientWidth;
+          if (scrollWidth > clientWidth) {
+            gsap.to(teamCarousel, {
+              scrollLeft: scrollWidth - clientWidth,
+              duration: 45,
+              ease: 'none',
+              repeat: -1,
+              yoyo: true,
+            });
+          }
+        };
+        setTimeout(setupTeamAutoscroll, 100);
+      }
+
       // Reviews section
       const reviewsScrollTl = gsap.timeline({
         scrollTrigger: {
@@ -303,7 +328,7 @@ function App() {
           start: 'top top',
           end: '+=130%',
           pin: true,
-          scrub: 0.6,
+          scrub: scrubVal,
         }
       });
 
@@ -368,7 +393,7 @@ function App() {
           start: 'top top',
           end: '+=130%',
           pin: true,
-          scrub: 0.6,
+          scrub: scrubVal,
         }
       });
 
@@ -421,7 +446,7 @@ function App() {
           start: 'top top',
           end: '+=130%',
           pin: true,
-          scrub: 0.6,
+          scrub: scrubVal,
         }
       });
 
@@ -476,7 +501,7 @@ function App() {
             trigger: contactRef.current,
             start: 'top 80%',
             end: 'top 50%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -489,7 +514,7 @@ function App() {
             trigger: contactRef.current,
             start: 'top 75%',
             end: 'top 45%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -502,7 +527,7 @@ function App() {
             trigger: contactRef.current,
             start: 'top 70%',
             end: 'top 40%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -515,7 +540,7 @@ function App() {
             trigger: contactRef.current,
             start: 'top 65%',
             end: 'top 35%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -528,7 +553,7 @@ function App() {
             trigger: contactRef.current,
             start: 'top 60%',
             end: 'top 30%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -542,7 +567,7 @@ function App() {
             trigger: closingRef.current,
             start: 'top 80%',
             end: 'top 40%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -555,7 +580,7 @@ function App() {
             trigger: closingRef.current,
             start: 'top 75%',
             end: 'top 45%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -568,7 +593,7 @@ function App() {
             trigger: closingRef.current,
             start: 'top 60%',
             end: 'top 30%',
-            scrub: 0.5
+            scrub: scrubValLoose
           }
         }
       );
@@ -578,8 +603,11 @@ function App() {
     return () => ctx.revert();
   }, []);
 
-  // Global scroll snap
+  // Global scroll snap — disabled on touch so finger scroll isn't fought by snap
   useEffect(() => {
+    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    if (isTouch) return;
+
     const timer = setTimeout(() => {
       const pinned = ScrollTrigger.getAll()
         .filter(st => st.vars.pin)
@@ -631,10 +659,15 @@ function App() {
 
       {/* Navigation - z-[10000] so it sits above grain overlay (z-9999) and hamburger is tappable on mobile */}
       <nav className="fixed top-0 left-0 right-0 z-[10000] px-6 py-4 flex justify-between items-center bg-gradient-to-b from-barber-black/80 to-transparent">
-        <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => scrollToSection(heroRef)}
+          aria-label="Back to top"
+          className="flex items-center gap-3 bg-transparent border-0 p-0 cursor-pointer hover:opacity-90 transition-opacity"
+        >
           <img src="/logo.png" alt="Barberella's" className="h-12 w-auto" />
           <span className="font-anton text-barber-gold text-xl tracking-wide hidden sm:block">BARBERELLA'S</span>
-        </div>
+        </button>
         
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
@@ -836,7 +869,7 @@ function App() {
 
         {/* Team Panel (Carousel) */}
         <div className="team-panel absolute inset-x-0 bottom-[10vh] z-40 px-[6vw]">
-          <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin snap-x snap-mandatory">
+          <div ref={teamCarouselRef} className="flex gap-6 overflow-x-auto pb-8 no-scrollbar">
             {team.map((member, index) => (
               <div key={index} className="flex-none w-[260px] md:w-[280px] bg-barber-black/80 backdrop-blur-sm p-5 md:p-6 rounded-2xl border border-barber-cream/10 snap-start hover:border-barber-gold/30 transition-colors group">
                 <div className="h-[160px] md:aspect-square mb-4 md:mb-6 rounded-xl overflow-hidden border border-barber-cream/10 group-hover:border-barber-gold/20 transition-colors">
