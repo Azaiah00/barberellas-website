@@ -52,6 +52,18 @@ function App() {
   const contactRef = useRef<HTMLDivElement>(null);
   const closingRef = useRef<HTMLDivElement>(null);
 
+  // Lock body scroll when mobile menu is open so the page doesn't scroll to a black section
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   // Hero load animation
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -508,8 +520,8 @@ function App() {
       {/* Vignette */}
       <div className="vignette" />
 
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-between items-center bg-gradient-to-b from-barber-black/80 to-transparent">
+      {/* Navigation - z-[10000] so it sits above grain overlay (z-9999) and hamburger is tappable on mobile */}
+      <nav className="fixed top-0 left-0 right-0 z-[10000] px-6 py-4 flex justify-between items-center bg-gradient-to-b from-barber-black/80 to-transparent">
         <div className="flex items-center gap-3">
           <img src="/logo.png" alt="Barberella's" className="h-12 w-auto" />
           <span className="font-anton text-barber-gold text-xl tracking-wide hidden sm:block">BARBERELLA'S</span>
@@ -523,22 +535,79 @@ function App() {
           <button onClick={() => scrollToSection(contactRef)} className="scene-label hover:text-barber-gold transition-colors">Contact</button>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button - min 44px touch target, stopPropagation so tap isn't lost to scroll */}
         <button 
-          className="md:hidden text-barber-cream"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          type="button"
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          className="md:hidden text-barber-cream p-3 -m-3 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setMobileMenuOpen((open) => !open);
+          }}
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - uses inline styles for guaranteed visibility */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-barber-black/95 flex flex-col items-center justify-center gap-8 md:hidden">
-          <button onClick={() => scrollToSection(servicesRef)} className="font-anton text-3xl text-barber-cream hover:text-barber-gold transition-colors">SERVICES</button>
-          <button onClick={() => scrollToSection(teamRef)} className="font-anton text-3xl text-barber-cream hover:text-barber-gold transition-colors">TEAM</button>
-          <button onClick={() => scrollToSection(bookingRef)} className="font-anton text-3xl text-barber-cream hover:text-barber-gold transition-colors">BOOK</button>
-          <button onClick={() => scrollToSection(contactRef)} className="font-anton text-3xl text-barber-cream hover:text-barber-gold transition-colors">CONTACT</button>
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 99999,
+            backgroundColor: '#0B0B0D',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '2rem',
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '1.5rem',
+              right: '1.5rem',
+              color: '#F4F1EA',
+              background: 'none',
+              border: 'none',
+              padding: '0.5rem',
+              cursor: 'pointer',
+            }}
+          >
+            <X size={28} />
+          </button>
+          {[
+            { label: 'SERVICES', ref: servicesRef },
+            { label: 'TEAM', ref: teamRef },
+            { label: 'BOOK', ref: bookingRef },
+            { label: 'CONTACT', ref: contactRef },
+          ].map(({ label, ref }) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => scrollToSection(ref)}
+              style={{
+                color: '#F4F1EA',
+                fontSize: '1.875rem',
+                fontFamily: "'Anton', sans-serif",
+                background: 'none',
+                border: 'none',
+                padding: '0.75rem 1.5rem',
+                cursor: 'pointer',
+                letterSpacing: '0.05em',
+              }}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       )}
 
