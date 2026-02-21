@@ -809,7 +809,7 @@ function App() {
             </div>
             <div className="mt-6 flex gap-4">
               <a 
-                href="https://www.vagaro.com/barberellasseattle"
+                href="https://www.vagaro.com/barberellasbarbershop"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary text-sm px-4 py-2 flex items-center gap-2"
@@ -948,7 +948,7 @@ function App() {
             Pick a time. Pick a pro. Show up looking better.
           </p>
           <a 
-            href="https://www.vagaro.com/barberellasseattle"
+            href="https://www.vagaro.com/barberellasbarbershop"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary w-full mb-4 flex items-center justify-center gap-2"
