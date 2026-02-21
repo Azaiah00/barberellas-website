@@ -777,7 +777,7 @@ function App() {
         <div className="services-panel absolute left-[6vw] bottom-[12vh] w-[34vw] min-w-[300px] z-40">
           <div className="bg-barber-black/40 backdrop-blur-md p-6 rounded-2xl border border-barber-cream/10">
             <div className="scene-label mb-4 text-barber-gold opacity-80">Quality service at a reasonable cost</div>
-            <div className="space-y-1 max-h-[40vh] overflow-y-auto pr-2 scrollbar-thin">
+            <div className="space-y-1 max-h-[24vh] md:max-h-[40vh] overflow-y-auto pr-2 scrollbar-thin">
               {services.map((service, index) => (
                 <div key={index} className="service-item group py-4">
                   <div className="flex justify-between items-baseline mb-1">
@@ -838,17 +838,18 @@ function App() {
         <div className="team-panel absolute inset-x-0 bottom-[10vh] z-40 px-[6vw]">
           <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin snap-x snap-mandatory">
             {team.map((member, index) => (
-              <div key={index} className="flex-none w-[280px] bg-barber-black/80 backdrop-blur-sm p-6 rounded-2xl border border-barber-cream/10 snap-start hover:border-barber-gold/30 transition-colors group">
-                <div className="aspect-square mb-6 rounded-xl overflow-hidden border border-barber-cream/10 group-hover:border-barber-gold/20 transition-colors">
+              <div key={index} className="flex-none w-[260px] md:w-[280px] bg-barber-black/80 backdrop-blur-sm p-5 md:p-6 rounded-2xl border border-barber-cream/10 snap-start hover:border-barber-gold/30 transition-colors group">
+                <div className="h-[160px] md:aspect-square mb-4 md:mb-6 rounded-xl overflow-hidden border border-barber-cream/10 group-hover:border-barber-gold/20 transition-colors">
                   <img 
                     src={member.image} 
                     alt={member.name} 
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                 </div>
                 <div className="team-name text-xl mb-1">{member.name}</div>
-                <div className="team-role text-barber-gold mb-4">{member.role}</div>
-                <p className="text-barber-gray text-sm leading-relaxed line-clamp-4 group-hover:line-clamp-none transition-all duration-300">
+                <div className="team-role text-barber-gold mb-3">{member.role}</div>
+                {/* Bio: always visible on mobile, clamp only on desktop */}
+                <p className="text-barber-gray text-sm leading-relaxed md:line-clamp-4 md:group-hover:line-clamp-none">
                   {member.bio}
                 </p>
               </div>
@@ -876,10 +877,10 @@ function App() {
         />
 
         {/* Carousel */}
-        <div className="reviews-carousel absolute inset-x-0 bottom-[15vh] z-40 px-[6vw]" style={{ transform: 'rotate(-2deg)' }}>
+        <div className="reviews-carousel absolute inset-x-0 bottom-[15vh] z-40 px-[6vw] hidden-rotate-mobile" style={{ transform: 'rotate(-2deg)' }}>
           <div ref={reviewsCarouselRef} className="flex gap-6 overflow-x-auto pb-8 no-scrollbar">
             {reviews.map((review, index) => (
-              <div key={index} className="flex-none w-[320px] bg-barber-black/40 backdrop-blur-md p-8 rounded-2xl border border-barber-cream/10 hover:border-barber-gold/30 transition-colors group" style={{ transform: 'rotate(2deg)' }}>
+              <div key={index} className="flex-none w-[280px] md:w-[320px] bg-barber-black/40 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-barber-cream/10 hover:border-barber-gold/30 transition-colors group" style={{ transform: 'rotate(2deg)' }}>
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={14} className="fill-barber-gold text-barber-gold" />

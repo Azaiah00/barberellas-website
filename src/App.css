@@ -132,55 +132,154 @@ nav button.scene-label:hover::after {
   }
 }
 
-/* Responsive adjustments */
+/* =============================================
+   MOBILE RESPONSIVE — complete rewrite
+   All pinned sections are h-screen overflow-hidden.
+   Layout: title (6-18vh) → photo (18-46vh) → panel (48vh+)
+   ============================================= */
 @media (max-width: 768px) {
+
+  /* --- Titles --- */
   .scene-title {
-    font-size: clamp(40px, 12vw, 64px) !important;
+    font-size: clamp(36px, 11vw, 56px) !important;
   }
-  
-  .hero-photo,
-  .services-photo,
-  .team-photo,
-  .booking-photo,
-  .visit-photo {
-    width: 88vw !important;
-    left: 6vw !important;
-    right: auto !important;
-    height: 42vh !important;
-  }
-  
-  .hero-cta,
-  .services-panel,
-  .team-panel,
-  .booking-panel,
-  .visit-panel {
-    width: 88vw !important;
-    left: 6vw !important;
-    right: auto !important;
-    top: 68vh !important;
-    bottom: auto !important;
-  }
-  
+
   .hero-title,
   .services-title,
   .team-title,
   .booking-title,
-  .visit-title {
+  .visit-title,
+  .reviews-title {
     top: 6vh !important;
+    left: 6vw !important;
   }
-  
+
+  /* --- Hero section --- */
+  .hero-photo {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 16vh !important;
+    height: 34vh !important;
+  }
+
+  .hero-cta {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 52vh !important;
+    bottom: auto !important;
+  }
+
+  /* --- Services section --- */
+  .services-photo {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 15vh !important;
+    height: 26vh !important;
+  }
+
+  .services-panel {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 43vh !important;
+    bottom: auto !important;
+  }
+
+  /* Limit service list height so it fits on screen */
+  .services-panel .space-y-1 {
+    max-height: 24vh !important;
+  }
+
+  /* --- Team section --- */
+  /* team-photo is a full-bleed background — leave inset-0 */
+  .team-panel {
+    position: absolute !important;
+    top: 22vh !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    padding-left: 6vw !important;
+    padding-right: 0 !important;
+  }
+
+  /* Smaller card images on mobile so cards fit in viewport */
+  .team-panel .aspect-square {
+    aspect-ratio: auto !important;
+    height: 160px !important;
+  }
+
+  /* Always show bio on mobile — hover doesn't exist on touch */
+  .team-panel p {
+    -webkit-line-clamp: unset !important;
+    overflow: visible !important;
+    display: block !important;
+    max-height: none !important;
+  }
+
+  /* --- Reviews section --- */
+  .reviews-carousel {
+    top: 28vh !important;
+    bottom: auto !important;
+    /* Remove diagonal tilt on mobile — causes clipping */
+    transform: none !important;
+  }
+
+  .reviews-carousel .flex-none {
+    /* Counter-rotate cards back to straight */
+    transform: none !important;
+    width: 280px !important;
+    padding: 1.25rem !important;
+  }
+
+  /* --- Booking section --- */
+  .booking-photo {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 15vh !important;
+    height: 28vh !important;
+  }
+
+  .booking-panel {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 46vh !important;
+    bottom: auto !important;
+  }
+
+  /* --- Visit section --- */
+  .visit-photo {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 15vh !important;
+    height: 28vh !important;
+  }
+
+  .visit-panel {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 46vh !important;
+    bottom: auto !important;
+  }
+
+  /* --- Hide decorative lines on mobile --- */
   .hero-rule,
   .services-rule,
   .visit-rule,
   .reviews-diagonal,
-  .booking-diagonal {
-    display: none;
-  }
-  
+  .booking-diagonal,
   .team-bracket {
-    display: none;
+    display: none !important;
   }
-  
+
+  /* --- Closing section (not pinned, normal flow) --- */
   .closing-photo {
     position: relative !important;
     width: 88vw !important;
@@ -189,7 +288,7 @@ nav button.scene-label:hover::after {
     top: 4vh !important;
     margin-bottom: 4vh;
   }
-  
+
   .closing-social {
     position: relative !important;
     left: 6vw !important;
