@@ -608,13 +608,18 @@ function App() {
   // scrolling to advance. Natural scroll through pinned sections is better UX.
 
   const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>, offsetVh: number = 0) => {
+    setMobileMenuOpen(false);
+    // Logo / home: always go to the very top so hero is fully in view
+    if (ref === heroRef) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (!ref.current) return;
     const elementTop = ref.current.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({
       top: elementTop + (window.innerHeight * offsetVh),
       behavior: 'smooth'
     });
-    setMobileMenuOpen(false);
   };
 
   return (
@@ -629,7 +634,7 @@ function App() {
       <nav className="fixed top-0 left-0 right-0 z-[10000] px-6 py-4 flex justify-between items-center bg-gradient-to-b from-barber-black/80 to-transparent">
         <button
           type="button"
-          onClick={() => scrollToSection(heroRef)}
+          onClick={() => scrollToSection(heroRef, 0)}
           aria-label="Back to top"
           className="flex items-center gap-3 bg-transparent border-0 p-0 cursor-pointer hover:opacity-90 transition-opacity"
         >
@@ -640,11 +645,11 @@ function App() {
         
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <button onClick={() => scrollToSection(servicesRef)} className="scene-label hover:text-barber-gold transition-colors">Services</button>
-          <button onClick={() => scrollToSection(teamRef)} className="scene-label hover:text-barber-gold transition-colors">Team</button>
-          <button onClick={() => scrollToSection(reviewsRef)} className="scene-label hover:text-barber-gold transition-colors">Vibes</button>
-          <button onClick={() => scrollToSection(bookingRef)} className="scene-label hover:text-barber-gold transition-colors">Book</button>
-          <button onClick={() => scrollToSection(contactRef)} className="scene-label hover:text-barber-gold transition-colors">Contact</button>
+          <button onClick={() => scrollToSection(servicesRef, 0.45)} className="scene-label hover:text-barber-gold transition-colors">Services</button>
+          <button onClick={() => scrollToSection(teamRef, 0.25)} className="scene-label hover:text-barber-gold transition-colors">Team</button>
+          <button onClick={() => scrollToSection(reviewsRef, 0.25)} className="scene-label hover:text-barber-gold transition-colors">Vibes</button>
+          <button onClick={() => scrollToSection(bookingRef, 0.25)} className="scene-label hover:text-barber-gold transition-colors">Book</button>
+          <button onClick={() => scrollToSection(contactRef, 0.25)} className="scene-label hover:text-barber-gold transition-colors">Contact</button>
         </div>
 
         {/* Mobile Menu Button - min 44px touch target, stopPropagation so tap isn't lost to scroll */}
@@ -681,16 +686,16 @@ function App() {
             }}
           >
             {[
-              { label: 'SERVICES', ref: servicesRef },
-              { label: 'TEAM', ref: teamRef },
-              { label: 'VIBES', ref: reviewsRef },
-              { label: 'BOOK', ref: bookingRef },
-              { label: 'CONTACT', ref: contactRef },
-            ].map(({ label, ref }) => (
+              { label: 'SERVICES', ref: servicesRef, offset: 0.45 },
+              { label: 'TEAM', ref: teamRef, offset: 0.25 },
+              { label: 'VIBES', ref: reviewsRef, offset: 0.25 },
+              { label: 'BOOK', ref: bookingRef, offset: 0.25 },
+              { label: 'CONTACT', ref: contactRef, offset: 0.25 },
+            ].map(({ label, ref, offset }) => (
               <button
                 key={label}
                 type="button"
-                onClick={() => scrollToSection(ref)}
+                onClick={() => scrollToSection(ref, offset)}
                 style={{
                   color: '#F4F1EA',
                   fontSize: '1.25rem',
@@ -743,7 +748,7 @@ function App() {
             Book a Cut
           </button>
           <button 
-            onClick={() => scrollToSection(servicesRef)}
+            onClick={() => scrollToSection(servicesRef, 0.45)}
             className="text-link text-sm w-full text-center"
           >
             View Services
@@ -803,7 +808,7 @@ function App() {
                 Book Now
               </a>
               <button 
-                onClick={() => scrollToSection(contactRef)}
+                onClick={() => scrollToSection(contactRef, 0.25)}
                 className="text-link text-sm"
               >
                 Full Pricing
