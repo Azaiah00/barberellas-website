@@ -148,17 +148,18 @@ function App() {
   // Scroll animations
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Tighter scrub on touch so animations follow finger (less wobble)
+      // scrub: 0.3 desktop = quick catch-up, smooth feel
+      // scrub: 0.3 touch = near-instant, follows finger naturally
       const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-      const scrubVal = isTouch ? 1 : 0.6;
-      const scrubValLoose = isTouch ? 1 : 0.5;
+      const scrubVal = isTouch ? 0.3 : 0.3;
+      const scrubValLoose = isTouch ? 0.3 : 0.3;
 
       // Hero scroll exit animation
       const heroScrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=90%',
           pin: true,
           scrub: scrubVal,
           onLeaveBack: () => {
@@ -201,7 +202,7 @@ function App() {
         scrollTrigger: {
           trigger: servicesRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=90%',
           pin: true,
           scrub: scrubVal,
         }
@@ -254,7 +255,7 @@ function App() {
         scrollTrigger: {
           trigger: teamRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=90%',
           pin: true,
           scrub: scrubVal,
         }
@@ -326,7 +327,7 @@ function App() {
         scrollTrigger: {
           trigger: reviewsRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=90%',
           pin: true,
           scrub: scrubVal,
         }
@@ -391,7 +392,7 @@ function App() {
         scrollTrigger: {
           trigger: bookingRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=90%',
           pin: true,
           scrub: scrubVal,
         }
@@ -444,7 +445,7 @@ function App() {
         scrollTrigger: {
           trigger: visitRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=90%',
           pin: true,
           scrub: scrubVal,
         }
@@ -603,46 +604,8 @@ function App() {
     return () => ctx.revert();
   }, []);
 
-  // Global scroll snap — disabled on touch so finger scroll isn't fought by snap
-  useEffect(() => {
-    const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-    if (isTouch) return;
-
-    const timer = setTimeout(() => {
-      const pinned = ScrollTrigger.getAll()
-        .filter(st => st.vars.pin)
-        .sort((a, b) => a.start - b.start);
-      
-      const maxScroll = ScrollTrigger.maxScroll(window);
-      if (!maxScroll || pinned.length === 0) return;
-
-      const pinnedRanges = pinned.map(st => ({
-        start: st.start / maxScroll,
-        end: (st.end ?? st.start) / maxScroll,
-        center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
-      }));
-
-      ScrollTrigger.create({
-        snap: {
-          snapTo: (value: number) => {
-            const inPinned = pinnedRanges.some(r => value >= r.start - 0.02 && value <= r.end + 0.02);
-            if (!inPinned) return value;
-
-            const target = pinnedRanges.reduce((closest, r) =>
-              Math.abs(r.center - value) < Math.abs(closest - value) ? r.center : closest,
-              pinnedRanges[0]?.center ?? 0
-            );
-            return target;
-          },
-          duration: { min: 0.15, max: 0.35 },
-          delay: 0,
-          ease: 'power2.out'
-        }
-      });
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
+  // Scroll snap removed — it was snapping to section centers and requiring aggressive
+  // scrolling to advance. Natural scroll through pinned sections is better UX.
 
   const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
