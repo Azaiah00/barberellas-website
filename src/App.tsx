@@ -41,12 +41,59 @@ const team = [
   { name: 'Stephanie', role: 'Stylist', image: '/staff/stephanie.png', bio: 'Passionate about hair since 2006. Enjoys styling men and women from fades to bobs.' },
 ];
 
+// Reviews data
+const reviews = [
+  {
+    name: "James E.",
+    date: "Feb 13, 2026",
+    text: "Amanda is a Zen Master of men’s haircuts. When you sit in her chair, know that you are in the best hands possible for a haircut that will look great when you leave and stay looking great until your next appointment.",
+    target: "Amanda Mayer"
+  },
+  {
+    name: "Gerald M.",
+    date: "Feb 01, 2026",
+    text: "Steph has been an excellent stylist for my hair cuts. Always pleasant, and courteous during my appointments, she always insured I was a happy customer. I highly recommend her!",
+    target: "Stephanie Marie"
+  },
+  {
+    name: "Elisabeth F.",
+    date: "Jan 11, 2026",
+    text: "Kellie’s a really cool person and does great at her job. 10/10 recommend booking with Kellie! She also had a great eye/sense for what would suit me without me even having to explain.",
+    target: "Kellie Gregerson"
+  },
+  {
+    name: "Scott B.",
+    date: "Nov 15, 2025",
+    text: "Best barbershop in Seattle, Amanda, Nickolaus, and Stephanie rock!! Nick is consistently excellent, both with his styling and skills.",
+    target: "Nickolaus Forthun"
+  },
+  {
+    name: "Matt B.",
+    date: "Sep 19, 2025",
+    text: "Heather is the best! She’s been cutting my hair for years. I just tell her to make me look good and she knows what to do. Thanks Heather!",
+    target: "Heather Peterman"
+  },
+  {
+    name: "oLivEr k.",
+    date: "Sep 08, 2025",
+    text: "Easy peezy with Emy. Casual pro. Always gives a great haircut and is a good hang.",
+    target: "Emy Belknap"
+  },
+  {
+    name: "Dennis M.",
+    date: "Oct 15, 2025",
+    text: "Dougie is the best employee :) Super friendly and knows exactly what you need and want. Plus she has a rad setup!",
+    target: "Venue"
+  }
+];
+
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
+  const reviewsRef = useRef<HTMLDivElement>(null);
   const bookingRef = useRef<HTMLDivElement>(null);
   const visitRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -249,6 +296,39 @@ function App() {
         .fromTo('.team-bracket',
           { opacity: 1 },
           { opacity: 0, ease: 'power2.in' },
+          0.7
+        );
+
+      // Reviews section
+      const reviewsScrollTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: reviewsRef.current,
+          start: 'top top',
+          end: '+=130%',
+          pin: true,
+          scrub: 0.6,
+        }
+      });
+
+      reviewsScrollTl
+        .fromTo('.reviews-title',
+          { x: '-50vw', opacity: 0 },
+          { x: 0, opacity: 1, ease: 'power3.out' },
+          0
+        )
+        .fromTo('.reviews-carousel',
+          { y: '40vh', opacity: 0 },
+          { y: 0, opacity: 1, ease: 'power2.out' },
+          0.1
+        )
+        .fromTo('.reviews-title',
+          { x: 0, opacity: 1 },
+          { x: '-18vw', opacity: 0, ease: 'power2.in' },
+          0.7
+        )
+        .fromTo('.reviews-carousel',
+          { y: 0, opacity: 1 },
+          { y: '18vh', opacity: 0, ease: 'power2.in' },
           0.7
         );
 
@@ -531,6 +611,7 @@ function App() {
         <div className="hidden md:flex items-center gap-8">
           <button onClick={() => scrollToSection(servicesRef)} className="scene-label hover:text-barber-gold transition-colors">Services</button>
           <button onClick={() => scrollToSection(teamRef)} className="scene-label hover:text-barber-gold transition-colors">Team</button>
+          <button onClick={() => scrollToSection(reviewsRef)} className="scene-label hover:text-barber-gold transition-colors">Vibes</button>
           <button onClick={() => scrollToSection(bookingRef)} className="scene-label hover:text-barber-gold transition-colors">Book</button>
           <button onClick={() => scrollToSection(contactRef)} className="scene-label hover:text-barber-gold transition-colors">Contact</button>
         </div>
@@ -587,6 +668,7 @@ function App() {
           {[
             { label: 'SERVICES', ref: servicesRef },
             { label: 'TEAM', ref: teamRef },
+            { label: 'VIBES', ref: reviewsRef },
             { label: 'BOOK', ref: bookingRef },
             { label: 'CONTACT', ref: contactRef },
           ].map(({ label, ref }) => (
@@ -759,6 +841,46 @@ function App() {
           <div className="mt-4 flex items-center gap-2">
             <div className="h-px flex-1 bg-barber-cream/10" />
             <span className="scene-label text-[10px] opacity-50">Scroll to explore the team</span>
+            <div className="h-px flex-1 bg-barber-cream/10" />
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3.5: Reviews */}
+      <section ref={reviewsRef} className="pinned-section bg-barber-crimson z-[35]">
+        {/* Title */}
+        <h2 className="reviews-title scene-title absolute left-[6vw] top-[10vh] z-30">
+          VIBES
+        </h2>
+
+        {/* Carousel */}
+        <div className="reviews-carousel absolute inset-x-0 bottom-[15vh] z-40 px-[6vw]">
+          <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin snap-x snap-mandatory">
+            {reviews.map((review, index) => (
+              <div key={index} className="flex-none w-[320px] bg-barber-black/40 backdrop-blur-md p-8 rounded-2xl border border-barber-cream/10 snap-start hover:border-barber-gold/30 transition-colors group">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} className="fill-barber-gold text-barber-gold" />
+                  ))}
+                </div>
+                <p className="text-barber-cream font-inter text-sm leading-relaxed mb-6 italic">
+                  "{review.text}"
+                </p>
+                <div className="flex justify-between items-end">
+                  <div>
+                    <div className="text-barber-cream font-medium text-sm">{review.name}</div>
+                    <div className="text-barber-gray text-[10px] uppercase tracking-widest">{review.date}</div>
+                  </div>
+                  <div className="text-barber-gold text-[10px] font-mono uppercase tracking-wider opacity-60">
+                    re: {review.target}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex items-center gap-2">
+            <div className="h-px flex-1 bg-barber-cream/10" />
+            <span className="scene-label text-[10px] opacity-50">What the community says</span>
             <div className="h-px flex-1 bg-barber-cream/10" />
           </div>
         </div>
