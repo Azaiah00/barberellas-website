@@ -664,40 +664,24 @@ function App() {
         </button>
       </nav>
 
-      {/* Mobile Menu - uses inline styles for guaranteed visibility */}
+      {/* Mobile Menu - Simplified Dropdown */}
       {mobileMenuOpen && (
         <div 
+          className="md:hidden"
           style={{
             position: 'fixed',
-            top: 0,
+            top: '72px', // Height of the nav
             left: 0,
             right: 0,
-            bottom: 0,
-            zIndex: 99999,
             backgroundColor: '#0B0B0D',
+            borderBottom: '1px solid rgba(244, 241, 234, 0.1)',
+            zIndex: 100000,
+            padding: '1rem 0',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '2rem',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}
         >
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{
-              position: 'absolute',
-              top: '1.5rem',
-              right: '1.5rem',
-              color: '#F4F1EA',
-              background: 'none',
-              border: 'none',
-              padding: '0.5rem',
-              cursor: 'pointer',
-            }}
-          >
-            <X size={28} />
-          </button>
           {[
             { label: 'SERVICES', ref: servicesRef },
             { label: 'TEAM', ref: teamRef },
@@ -711,11 +695,13 @@ function App() {
               onClick={() => scrollToSection(ref)}
               style={{
                 color: '#F4F1EA',
-                fontSize: '1.875rem',
+                fontSize: '1.25rem',
                 fontFamily: "'Anton', sans-serif",
                 background: 'none',
                 border: 'none',
-                padding: '0.75rem 1.5rem',
+                padding: '1rem 2rem',
+                textAlign: 'left',
+                width: '100%',
                 cursor: 'pointer',
                 letterSpacing: '0.05em',
               }}
