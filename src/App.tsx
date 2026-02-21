@@ -317,6 +317,11 @@ function App() {
           { x: 0, opacity: 1, ease: 'power3.out' },
           0
         )
+        .fromTo('.reviews-diagonal',
+          { scaleX: 0 },
+          { scaleX: 1, ease: 'power2.out', transformOrigin: 'left' },
+          0.05
+        )
         .fromTo('.reviews-carousel',
           { y: '40vh', opacity: 0 },
           { y: 0, opacity: 1, ease: 'power2.out' },
@@ -325,6 +330,11 @@ function App() {
         .fromTo('.reviews-title',
           { x: 0, opacity: 1 },
           { x: '-18vw', opacity: 0, ease: 'power2.in' },
+          0.7
+        )
+        .fromTo('.reviews-diagonal',
+          { opacity: 1 },
+          { opacity: 0, ease: 'power2.in' },
           0.7
         )
         .fromTo('.reviews-carousel',
@@ -336,24 +346,29 @@ function App() {
       // Autoscroll for reviews carousel
       const carousel = reviewsCarouselRef.current;
       if (carousel) {
-        const scrollWidth = carousel.scrollWidth;
-        const clientWidth = carousel.clientWidth;
-        
-        if (scrollWidth > clientWidth) {
-          gsap.to(carousel, {
-            scrollLeft: scrollWidth - clientWidth,
-            duration: 30,
-            ease: "none",
-            repeat: -1,
-            yoyo: true,
-            scrollTrigger: {
-              trigger: reviewsRef.current,
-              start: "top center",
-              end: "bottom center",
-              toggleActions: "play pause resume pause"
-            }
-          });
-        }
+        const setupAutoscroll = () => {
+          const scrollWidth = carousel.scrollWidth;
+          const clientWidth = carousel.clientWidth;
+          
+          if (scrollWidth > clientWidth) {
+            gsap.to(carousel, {
+              scrollLeft: scrollWidth - clientWidth,
+              duration: 40,
+              ease: "none",
+              repeat: -1,
+              yoyo: true,
+              scrollTrigger: {
+                trigger: reviewsRef.current,
+                start: "top center",
+                end: "bottom center",
+                toggleActions: "play pause resume pause"
+              }
+            });
+          }
+        };
+
+        // Small delay to ensure content is measured correctly
+        setTimeout(setupAutoscroll, 100);
       }
 
       // Booking section
@@ -877,11 +892,17 @@ function App() {
           VIBES
         </h2>
 
+        {/* Diagonal Rule */}
+        <div 
+          className="reviews-diagonal absolute left-[12vw] top-[22vh] w-[40vw] h-px bg-barber-cream/40 origin-left"
+          style={{ transform: 'rotate(12deg)' }}
+        />
+
         {/* Carousel */}
         <div className="reviews-carousel absolute inset-x-0 bottom-[15vh] z-40 px-[6vw]">
-          <div ref={reviewsCarouselRef} className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin snap-x snap-mandatory">
+          <div ref={reviewsCarouselRef} className="flex gap-6 overflow-x-auto pb-8 scrollbar-thin">
             {reviews.map((review, index) => (
-              <div key={index} className="flex-none w-[320px] bg-barber-black/40 backdrop-blur-md p-8 rounded-2xl border border-barber-cream/10 snap-start hover:border-barber-gold/30 transition-colors group">
+              <div key={index} className="flex-none w-[320px] bg-barber-black/40 backdrop-blur-md p-8 rounded-2xl border border-barber-cream/10 hover:border-barber-gold/30 transition-colors group">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} size={14} className="fill-barber-gold text-barber-gold" />

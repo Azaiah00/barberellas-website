@@ -172,6 +172,7 @@ nav button.scene-label:hover::after {
   .hero-rule,
   .services-rule,
   .visit-rule,
+  .reviews-diagonal,
   .booking-diagonal {
     display: none;
   }
