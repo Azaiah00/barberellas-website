@@ -628,8 +628,9 @@ function App() {
           aria-label="Back to top"
           className="flex items-center gap-3 bg-transparent border-0 p-0 cursor-pointer hover:opacity-90 transition-opacity"
         >
-          <img src="/logo.png" alt="Barberella's" className="h-12 w-auto" />
-          <span className="font-anton text-barber-gold text-xl tracking-wide hidden sm:block">BARBERELLA'S</span>
+          <div className="neon-logo text-4xl sm:text-5xl transform -rotate-2 relative px-2 py-1">
+            Barberella's
+          </div>
         </button>
         
         {/* Desktop Nav */}

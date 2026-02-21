@@ -139,6 +139,68 @@ nav button.scene-label:hover::after {
   }
 }
 
+/* Neon Logo Styles */
+.neon-logo {
+  font-family: 'Mr Dafoe', cursive;
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #ff003c,
+    0 0 40px #ff003c,
+    0 0 80px #ff003c,
+    0 0 90px #ff003c,
+    0 0 100px #ff003c;
+  animation: neon-pulse 3s infinite alternate;
+  line-height: 1;
+  user-select: none;
+}
+
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px #fff,
+      0 0 40px #ff003c,
+      0 0 80px #ff003c,
+      0 0 90px #ff003c,
+      0 0 100px #ff003c;
+  }
+  50% {
+    text-shadow:
+      0 0 2px #fff,
+      0 0 8px #fff,
+      0 0 15px #fff,
+      0 0 30px #ff003c,
+      0 0 60px #ff003c,
+      0 0 70px #ff003c,
+      0 0 80px #ff003c;
+  }
+}
+
+/* Subtle flicker effect for realism */
+.neon-logo::after {
+  content: "Barberella's";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  color: transparent; 
+  filter: blur(2px);
+  opacity: 0.5;
+  animation: neon-flicker 6s infinite;
+}
+
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 0.5;
+  }
+  20%, 24%, 55% {
+    opacity: 0.2;
+  }
+}
+
 /* =============================================
    MOBILE RESPONSIVE — complete rewrite
    All pinned sections are h-screen overflow-hidden.
@@ -301,14 +363,5 @@ nav button.scene-label:hover::after {
     left: 6vw !important;
     bottom: auto !important;
     margin-top: 6vh;
-  }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }
