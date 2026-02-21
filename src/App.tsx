@@ -31,11 +31,11 @@ const services = [
   { name: 'Straight Razor Head Shave', price: '$65', description: 'Slick look with the smoothest feel.' },
 ];
 
-// Team data
+// Team data — Heather first, Amanda (owner) in the middle
 const team = [
-  { name: 'Amanda', role: 'Owner / Stylist', image: '/staff/amanda.png', bio: 'Seattle local with a passion for the craft since 2011. Loves camping, hiking, riding motorcycles, music, art, video games and of course, her pit bulls.' },
-  { name: 'Nickolaus', role: 'Barber', image: '/staff/nickolaus.png', bio: 'Veteran turned barber since 2019. Medievalist by hobby, loves sword fighting and trivia nights.' },
   { name: 'Heather', role: 'Stylist', image: '/staff/heather.png', bio: '14 years of making people look fabulous. Loves color, skin fades, sports, and adventures.' },
+  { name: 'Nickolaus', role: 'Barber', image: '/staff/nickolaus.png', bio: 'Veteran turned barber since 2019. Medievalist by hobby, loves sword fighting and trivia nights.' },
+  { name: 'Amanda', role: 'Owner / Stylist', image: '/staff/amanda.png', bio: 'Seattle local with a passion for the craft since 2011. Loves camping, hiking, riding motorcycles, music, art, video games and of course, her pit bulls.' },
   { name: 'Kellie', role: 'Stylist', image: '/staff/kellie.png', bio: 'Washington native specializing in barbering and anything funky. Obsessed with horse racing and rock climbing.' },
   { name: 'Emy', role: 'Stylist', image: '/staff/emy.png', bio: '15 years in the trade. White Center resident who loves creating both masculine and feminine styles. Taming crazy cowlicks is her specialty.' },
   { name: 'Stephanie', role: 'Stylist', image: '/staff/stephanie.png', bio: 'Passionate about hair since 2006. Enjoys styling men and women from fades to bobs.' },
