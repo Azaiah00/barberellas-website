@@ -102,11 +102,7 @@ function App() {
 
   // Lock body scroll when mobile menu is open so the page doesn't scroll to a black section
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    // Removed body scroll lock to see if it fixes the black screen issue
     return () => {
       document.body.style.overflow = '';
     };
@@ -662,55 +658,56 @@ function App() {
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-      </nav>
 
-      {/* Mobile Menu - Simplified Dropdown */}
-      {mobileMenuOpen && (
-        <div 
-          className="md:hidden"
-          style={{
-            position: 'fixed',
-            top: '72px', // Height of the nav
-            left: 0,
-            right: 0,
-            backgroundColor: '#0B0B0D',
-            borderBottom: '1px solid rgba(244, 241, 234, 0.1)',
-            zIndex: 100000,
-            padding: '1rem 0',
-            display: 'flex',
-            flexDirection: 'column',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-          }}
-        >
-          {[
-            { label: 'SERVICES', ref: servicesRef },
-            { label: 'TEAM', ref: teamRef },
-            { label: 'VIBES', ref: reviewsRef },
-            { label: 'BOOK', ref: bookingRef },
-            { label: 'CONTACT', ref: contactRef },
-          ].map(({ label, ref }) => (
-            <button
-              key={label}
-              type="button"
-              onClick={() => scrollToSection(ref)}
-              style={{
-                color: '#F4F1EA',
-                fontSize: '1.25rem',
-                fontFamily: "'Anton', sans-serif",
-                background: 'none',
-                border: 'none',
-                padding: '1rem 2rem',
-                textAlign: 'left',
-                width: '100%',
-                cursor: 'pointer',
-                letterSpacing: '0.05em',
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      )}
+        {/* Mobile Menu Dropdown - INSIDE NAV for guaranteed stacking */}
+        {mobileMenuOpen && (
+          <div 
+            className="md:hidden"
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              right: 0,
+              backgroundColor: '#0B0B0D',
+              borderTop: '1px solid rgba(244, 241, 234, 0.1)',
+              borderBottom: '1px solid rgba(244, 241, 234, 0.1)',
+              padding: '1rem 0',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.8)',
+              zIndex: 100001
+            }}
+          >
+            {[
+              { label: 'SERVICES', ref: servicesRef },
+              { label: 'TEAM', ref: teamRef },
+              { label: 'VIBES', ref: reviewsRef },
+              { label: 'BOOK', ref: bookingRef },
+              { label: 'CONTACT', ref: contactRef },
+            ].map(({ label, ref }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => scrollToSection(ref)}
+                style={{
+                  color: '#F4F1EA',
+                  fontSize: '1.25rem',
+                  fontFamily: "'Anton', sans-serif",
+                  background: 'none',
+                  border: 'none',
+                  padding: '1.25rem 2rem',
+                  textAlign: 'left',
+                  width: '100%',
+                  cursor: 'pointer',
+                  letterSpacing: '0.05em',
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
+      </nav>
 
       {/* Section 1: Hero */}
       <section ref={heroRef} className="pinned-section bg-barber-black z-10">
