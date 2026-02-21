@@ -607,8 +607,13 @@ function App() {
   // Scroll snap removed — it was snapping to section centers and requiring aggressive
   // scrolling to advance. Natural scroll through pinned sections is better UX.
 
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>, offsetVh: number = 0) => {
+    if (!ref.current) return;
+    const elementTop = ref.current.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({
+      top: elementTop + (window.innerHeight * offsetVh),
+      behavior: 'smooth'
+    });
     setMobileMenuOpen(false);
   };
 
@@ -731,7 +736,7 @@ function App() {
             Classic cuts, modern confidence. Holding down White Center one cut at a time.
           </p>
           <button 
-            onClick={() => scrollToSection(bookingRef)}
+            onClick={() => scrollToSection(bookingRef, 0.25)}
             className="btn-primary w-full mb-4 flex items-center justify-center gap-2"
           >
             <Calendar size={18} />
