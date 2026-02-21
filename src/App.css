@@ -1,0 +1,207 @@
+/* App-specific styles */
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0B0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8A03A;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4b04a;
+}
+
+/* Thin scrollbar for service list */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(200, 160, 58, 0.5);
+}
+
+/* Photo card hover effect */
+.photo-card {
+  transition: transform 0.3s ease;
+}
+
+.photo-card:hover {
+  transform: scale(1.01);
+}
+
+/* Button hover animations */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+/* Service item hover */
+.service-item {
+  transition: background-color 0.2s ease;
+}
+
+.service-item:hover {
+  background-color: rgba(200, 160, 58, 0.05);
+}
+
+/* Team member hover */
+.team-member {
+  transition: transform 0.2s ease;
+}
+
+.team-member:hover {
+  transform: translateX(4px);
+}
+
+/* Form input focus states */
+.form-input:focus {
+  box-shadow: 0 0 0 2px rgba(200, 160, 58, 0.2);
+}
+
+/* Social icon hover */
+.closing-social a {
+  transition: all 0.3s ease;
+}
+
+.closing-social a:hover {
+  transform: translateY(-2px);
+}
+
+/* Navigation link underline animation */
+nav button.scene-label {
+  position: relative;
+}
+
+nav button.scene-label::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #C8A03A;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+nav button.scene-label:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Mobile menu animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scene-title {
+    font-size: clamp(40px, 12vw, 64px) !important;
+  }
+  
+  .hero-photo,
+  .services-photo,
+  .team-photo,
+  .booking-photo,
+  .visit-photo {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    height: 42vh !important;
+  }
+  
+  .hero-cta,
+  .services-panel,
+  .team-panel,
+  .booking-panel,
+  .visit-panel {
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 68vh !important;
+    bottom: auto !important;
+  }
+  
+  .hero-title,
+  .services-title,
+  .team-title,
+  .booking-title,
+  .visit-title {
+    top: 6vh !important;
+  }
+  
+  .hero-rule,
+  .services-rule,
+  .visit-rule,
+  .booking-diagonal {
+    display: none;
+  }
+  
+  .team-bracket {
+    display: none;
+  }
+  
+  .closing-photo {
+    position: relative !important;
+    width: 88vw !important;
+    left: 6vw !important;
+    right: auto !important;
+    top: 4vh !important;
+    margin-bottom: 4vh;
+  }
+  
+  .closing-social {
+    position: relative !important;
+    left: 6vw !important;
+    bottom: auto !important;
+    margin-top: 6vh;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

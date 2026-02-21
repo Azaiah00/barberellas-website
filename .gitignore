@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Env and secrets (never commit tokens)
+.env
+.env.local
+.env.*.local
+
+# Editor and OS
+.DS_Store
+Thumbs.db
+*.log
+.cache
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

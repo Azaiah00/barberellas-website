@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4.7%;
+    --foreground: 40 23% 94%;
+    --card: 0 0% 4.7%;
+    --card-foreground: 40 23% 94%;
+    --popover: 0 0% 4.7%;
+    --popover-foreground: 40 23% 94%;
+    --primary: 43 55% 50%;
+    --primary-foreground: 0 0% 4.7%;
+    --secondary: 0 73% 25%;
+    --secondary-foreground: 40 23% 94%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 30 6% 70%;
+    --accent: 43 55% 50%;
+    --accent-foreground: 0 0% 4.7%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 43 55% 50%;
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  body {
+    @apply bg-barber-black text-barber-cream font-inter antialiased;
+    overflow-x: hidden;
+  }
+  
+  ::selection {
+    background: rgba(200, 160, 58, 0.3);
+    color: #F4F1EA;
+  }
+}
+
+@layer components {
+  .scene-title {
+    @apply font-anton uppercase tracking-tight text-barber-cream;
+    font-size: clamp(64px, 9vw, 160px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  
+  .scene-subtitle {
+    @apply font-inter text-barber-cream/90 font-medium;
+    font-size: clamp(14px, 1.2vw, 18px);
+    line-height: 1.6;
+  }
+  
+  .scene-label {
+    @apply font-mono uppercase text-barber-cream/80 font-semibold;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  
+  .photo-card {
+    @apply rounded-2xl overflow-hidden;
+    border: 1px solid rgba(244, 241, 234, 0.08);
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.55);
+  }
+  
+  .photo-card::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border: 2px solid rgba(200, 160, 58, 0.12);
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .rule-line {
+    @apply bg-barber-cream/40;
+    height: 1px;
+  }
+  
+  .rule-line-gold {
+    @apply bg-barber-gold/90;
+    height: 1px;
+  }
+  
+  .btn-primary {
+    @apply bg-barber-gold text-barber-black font-inter font-medium px-8 py-4 rounded-lg transition-all duration-300;
+  }
+  
+  .btn-primary:hover {
+    @apply transform -translate-y-0.5 scale-[1.02];
+    box-shadow: 0 8px 30px rgba(200, 160, 58, 0.3);
+  }
+  
+  .btn-secondary {
+    @apply text-barber-cream font-inter font-medium px-6 py-3 border border-barber-cream/30 rounded-lg transition-all duration-300;
+  }
+  
+  .btn-secondary:hover {
+    @apply border-barber-gold text-barber-gold;
+  }
+  
+  .text-link {
+    @apply text-barber-cream/80 font-inter relative inline-block;
+  }
+  
+  .text-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  
+  .text-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+  
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0,0,0,0.4) 100%);
+  }
+  
+  .pinned-section {
+    @apply w-screen h-screen relative overflow-hidden;
+  }
+  
+  .service-item {
+    @apply flex justify-between items-center py-3 border-b border-barber-cream/10;
+  }
+  
+  .service-name {
+    @apply font-inter text-barber-cream text-base;
+  }
+  
+  .service-price {
+    @apply font-mono text-barber-gold text-sm;
+  }
+  
+  .team-member {
+    @apply py-2;
+  }
+  
+  .team-name {
+    @apply font-inter text-barber-cream font-medium;
+  }
+  
+  .team-role {
+    @apply font-mono text-barber-gray text-xs uppercase tracking-wider;
+  }
+  
+  .form-input {
+    @apply w-full bg-barber-cream/5 border border-barber-cream/20 rounded-lg px-4 py-3 text-barber-cream placeholder:text-barber-gray/50 focus:outline-none focus:border-barber-gold/50 transition-colors;
+  }
+  
+  .form-label {
+    @apply font-mono text-barber-gray text-xs uppercase tracking-wider mb-2 block;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
